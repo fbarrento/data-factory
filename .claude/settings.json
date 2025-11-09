@@ -1,0 +1,13 @@
+{
+  "model": "sonnet",
+  "permissionMode": "default",
+  "verbose": false,
+  "allowedTools": [],
+  "disallowedTools": [],
+  "hooks": {
+    "user-prompt-submit": null,
+    "tool-call-request": null,
+    "tool-call-result": null
+  },
+  "mcpServers": {}
+}

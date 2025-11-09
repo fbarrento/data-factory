@@ -1,7 +1,7 @@
 {
     "name": "fbarrento/data-factory",
-    "description": "A skeleton repository for my packages",
-    "keywords": ["php", "skeleton", "package"],
+    "description": "Test data factory for PHP",
+    "keywords": ["php", "data-factory", "fixtures", "testing"],
     "license": "MIT",
     "authors": [
         {
@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "NunoMaduro\\SkeletonPhp\\": "src/"
+            "FBarrento\\DataFactory\\": "src/"
         }
     },
     "autoload-dev": {

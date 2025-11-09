@@ -1,22 +1,23 @@
+# Data Factory
+
 <p align="center">
-    <img src="https://raw.githubusercontent.com/nunomaduro/skeleton-php/master/docs/example.png" height="300" alt="Skeleton Php">
-    <p align="center">
-        <a href="https://github.com/nunomaduro/skeleton-php/actions"><img alt="GitHub Workflow Status (master)" src="https://github.com/nunomaduro/skeleton-php/actions/workflows/tests.yml/badge.svg"></a>
-        <a href="https://packagist.org/packages/nunomaduro/skeleton-php"><img alt="Total Downloads" src="https://img.shields.io/packagist/dt/nunomaduro/skeleton-php"></a>
-        <a href="https://packagist.org/packages/nunomaduro/skeleton-php"><img alt="Latest Version" src="https://img.shields.io/packagist/v/nunomaduro/skeleton-php"></a>
-        <a href="https://packagist.org/packages/nunomaduro/skeleton-php"><img alt="License" src="https://img.shields.io/packagist/l/nunomaduro/skeleton-php"></a>
-    </p>
+    <a href="https://github.com/fbarrento/data-factory/actions"><img alt="GitHub Workflow Status" src="https://github.com/fbarrento/data-factory/actions/workflows/tests.yml/badge.svg"></a>
+    <a href="https://packagist.org/packages/fbarrento/data-factory"><img alt="Total Downloads" src="https://img.shields.io/packagist/dt/fbarrento/data-factory"></a>
+    <a href="https://packagist.org/packages/fbarrento/data-factory"><img alt="Latest Version" src="https://img.shields.io/packagist/v/fbarrento/data-factory"></a>
+    <a href="https://packagist.org/packages/fbarrento/data-factory"><img alt="License" src="https://img.shields.io/packagist/l/fbarrento/data-factory"></a>
 </p>
 
 ------
-This package provides a wonderful **PHP Skeleton** to start building your next package idea.
+A powerful **test data factory** library for PHP.
 
 > **Requires [PHP 8.4+](https://php.net/releases/)**
 
-⚡️ Create your package using [Composer](https://getcomposer.org):
+## Installation
+
+Install via [Composer](https://getcomposer.org):
 
 ```bash
-composer create-project nunomaduro/skeleton-php --prefer-dist PackageName
+composer require fbarrento/data-factory --dev
 ```
 
 🧹 Keep a modern codebase with **Pint**:
@@ -44,4 +45,6 @@ composer test:unit
 composer test
 ```
 
-**Skeleton PHP** was created by **[Nuno Maduro](https://x.com/enunomaduro)** under the **[MIT license](https://opensource.org/licenses/MIT)**.
+## License
+
+**Data Factory** is open-sourced software licensed under the **[MIT license](https://opensource.org/licenses/MIT)**.

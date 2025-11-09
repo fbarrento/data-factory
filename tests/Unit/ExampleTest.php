@@ -5,7 +5,7 @@ test('that true is true', function (): void {
 });
 
 test('example returns bar', function (): void {
-    $example = new NunoMaduro\SkeletonPhp\Example;
+    $example = new FBarrento\DataFactory\Example;
 
     expect($example->foo())->toBe('bar');
 });
