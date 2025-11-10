@@ -39,3 +39,18 @@ test('can create a array factory', function (): void {
     expect($arrayFactory)
         ->toBeInstanceOf(ArrayFactory::class);
 });
+
+test('can create an array factory using static new method', function (): void {
+    $vehicleArray = VehicleArrayFactory::new()
+        ->make([
+            'make' => 'Honda',
+            'model' => 'Civic',
+        ]);
+
+    expect($vehicleArray)
+        ->toBeArray()
+        ->and($vehicleArray)->toBe([
+        'make' => 'Honda',
+        'model' => 'Civic',
+    ]);
+});
