@@ -14,7 +14,7 @@ use Faker\Generator;
 abstract class Factory
 {
     /**
-     * @var class-string<TDataObject>
+     * @var class-string
      */
     protected string $dataObject;
 
@@ -44,8 +44,12 @@ abstract class Factory
      */
     public function make(array $attributes = []): mixed
     {
+        $this->state = [
+            ...$this->definition(),
+            ...$this->state,
+        ];
 
-        if (! empty($attributes)) {
+        if ($attributes !== []) {
             $this->state = [
                 ...$this->state,
                 ...$attributes,
@@ -79,7 +83,23 @@ abstract class Factory
      */
     protected function makeInstance(): mixed
     {
-        return new $this->dataObject(...$this->state);
+        $resolved = $this->resolveNestedFactories($this->state);
+
+        return new $this->dataObject(...$resolved); // @phpstan-ignore-line
+    }
+
+    /**
+     * @param  array<string, mixed>  $state
+     * @return array<string, mixed>
+     */
+    protected function resolveNestedFactories(array $state): array
+    {
+
+        return array_map(fn ($value) => match (true) {
+            $value instanceof Closure => $value(),
+            $value instanceof Factory => (clone $value)->make(),
+            default => $value,
+        }, $state);
     }
 
     /**

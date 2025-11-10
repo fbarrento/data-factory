@@ -38,7 +38,7 @@ test('makes multiple objects', function (): void {
 
 });
 
-test('makes the object', function () {
+test('makes the object', function (): void {
 
     $vehicleFactory = new VehicleFactory;
 

@@ -33,11 +33,9 @@ abstract class ArrayFactory extends Factory
      */
     protected function makeInstance(): mixed
     {
+        $resolved = $this->resolveNestedFactories($this->state);
 
-        /** @var TArray $state */
-        $state = $this->state;
-
-        return $state;
-
+        /** @var TArray $resolved */
+        return $resolved;
     }
 }

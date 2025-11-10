@@ -6,10 +6,11 @@ use FBarrento\DataFactory\ArrayFactory;
 use Tests\Helpers\VehicleArrayFactory;
 
 dataset('vehicles', [
-    [fn () => new VehicleArrayFactory()->make(['make' => 'Toyota'])],
-    [fn () => new VehicleArrayFactory()->make(['make' => 'Toyota'])],
+    [fn (): mixed => new VehicleArrayFactory()->make(['make' => 'Toyota'])],
+    [fn (): mixed => new VehicleArrayFactory()->make(['make' => 'Toyota'])],
 ]);
 
+// @phpstan-ignore-next-line method.notFound
 test('can be used with data sets', function (array $vehicle): void {
 
     expect($vehicle['make'])->toBe('Toyota');
@@ -27,9 +28,9 @@ test('creates an array from the array factory', function (): void {
     expect($vehicleArray)
         ->toBeArray()
         ->and($vehicleArray)->toBe([
-        'make' => 'Toyota',
-        'model' => 'Corolla',
-    ]);
+            'make' => 'Toyota',
+            'model' => 'Corolla',
+        ]);
 
 });
 
@@ -50,7 +51,7 @@ test('can create an array factory using static new method', function (): void {
     expect($vehicleArray)
         ->toBeArray()
         ->and($vehicleArray)->toBe([
-        'make' => 'Honda',
-        'model' => 'Civic',
-    ]);
+            'make' => 'Honda',
+            'model' => 'Civic',
+        ]);
 });

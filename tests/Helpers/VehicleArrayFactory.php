@@ -12,17 +12,15 @@ class VehicleArrayFactory extends ArrayFactory
     public function definition(): array
     {
         return [
-            'make' => $this->fake->company,
-            'model' => $this->fake->word,
+            'make' => $this->fake->company(),
+            'model' => $this->fake->word(),
         ];
     }
 
     public function mercedes(): self
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'make' => 'Mercedes',
-            ];
-        });
+        return $this->state(fn (array $attributes): array => [
+            'make' => 'Mercedes',
+        ]);
     }
 }
