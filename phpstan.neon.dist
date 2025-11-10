@@ -2,5 +2,10 @@ parameters:
     level: max
     paths:
         - src
+        - tests
+
+    excludePaths:
+        - tests/Feature.php
+        - tests/Pest.php
 
     reportUnmatchedIgnoredErrors: true

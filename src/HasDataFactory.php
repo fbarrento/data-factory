@@ -1,0 +1,18 @@
+<?php
+
+namespace FBarrento\DataFactory;
+
+/**
+ * @template TFactory of Factory
+ */
+trait HasDataFactory
+{
+    /**
+     * @return TFactory
+     */
+    public static function factory(): mixed
+    {
+        /** @var TFactory */
+        return static::newFactory();
+    }
+}
