@@ -21,7 +21,7 @@ Inspired by Laravel's Eloquent factories, Data Factory brings the same elegant A
 - ✅ **Easy complex objects** - Create nested graphs without boilerplate
 - ✅ **Built with PEST in mind** - Works with any PHP testing framework, optimized for PEST
 - ✅ **Framework-agnostic** - Works with any PHP class, not tied to Eloquent
-- ✅ **Type-safe factories** - Full PHP 8.4+ generics with 100% type coverage
+- ✅ **Type-safe factories** - Modern type hints with 100% type coverage
 - ✅ **Faker integration** - Realistic test data out of the box
 
 ## Installation
