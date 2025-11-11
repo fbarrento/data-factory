@@ -49,3 +49,14 @@ test('makes the object', function (): void {
         ->and($vehicle)->not->toBeArray();
 
 });
+
+test('state method with array works through custom method', function (): void {
+
+    /** @var Vehicle $vehicle */
+    $vehicle = Vehicle::factory()
+        ->withModel('Corolla')
+        ->make();
+
+    expect($vehicle->model)->toBe('Corolla');
+
+});
