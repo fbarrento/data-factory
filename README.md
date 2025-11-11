@@ -1,4 +1,4 @@
-# Data Factory
+# Stop Writing Arrays in Your Tests: Laravel Factories for Data Objects
 
 <p align="center">
     <a href="https://github.com/fbarrento/data-factory/actions"><img alt="GitHub Workflow Status" src="https://github.com/fbarrento/data-factory/actions/workflows/tests.yml/badge.svg"></a>
@@ -32,45 +32,7 @@ Install via [Composer](https://getcomposer.org):
 composer require fbarrento/data-factory --dev
 ```
 
-## Quick Start
-
-```php
-// tests/Factories/DeploymentFactory.php
-use FBarrento\DataFactory\Factory;
-
-class DeploymentFactory extends Factory
-{
-    protected function definition(): array
-    {
-        return [
-            'id' => $this->fake->uuid(),
-            'status' => 'pending',
-            'branch_name' => 'main',
-            'commit_hash' => $this->fake->sha1(),
-        ];
-    }
-
-    public function succeeded(): static
-    {
-        return $this->state(['status' => 'deployment.succeeded']);
-    }
-}
-
-// tests/Feature/DeploymentTest.php
-it('handles successful deployments', function () {
-    $deployment = DeploymentFactory::new()->succeeded()->make();
-
-    expect($deployment->status)->toBe('deployment.succeeded');
-});
-
-it('creates multiple test deployments', function () {
-    $deployments = DeploymentFactory::new()->count(5)->make();
-
-    expect($deployments)->toHaveCount(5);
-});
-```
-
-## Why Use Factories for Testing?
+## Why Use Data Factories for Testing?
 
 **The Problem:** Test setup code is repetitive, hard to maintain, and clutters your test files.
 
@@ -110,6 +72,44 @@ it('processes deployment', function () {
 - **Readability** - `->succeeded()` is clearer than 10 lines of setup
 - **Flexibility** - Easy to test edge cases with different states
 - **Focus** - Spend time testing behavior, not setting up data
+
+## Quick Start
+
+```php
+// tests/Factories/DeploymentFactory.php
+use FBarrento\DataFactory\Factory;
+
+class DeploymentFactory extends Factory
+{
+    protected function definition(): array
+    {
+        return [
+            'id' => $this->fake->uuid(),
+            'status' => 'pending',
+            'branch_name' => 'main',
+            'commit_hash' => $this->fake->sha1(),
+        ];
+    }
+
+    public function succeeded(): static
+    {
+        return $this->state(['status' => 'deployment.succeeded']);
+    }
+}
+
+// tests/Feature/DeploymentTest.php
+it('handles successful deployments', function () {
+    $deployment = DeploymentFactory::new()->succeeded()->make();
+
+    expect($deployment->status)->toBe('deployment.succeeded');
+});
+
+it('creates multiple test deployments', function () {
+    $deployments = DeploymentFactory::new()->count(5)->make();
+
+    expect($deployments)->toHaveCount(5);
+});
+```
 
 ## Documentation
 
@@ -181,6 +181,10 @@ composer test:unit
 ```bash
 composer test
 ```
+
+## References
+
+- [Stop Writing Arrays in Your Tests: Laravel Factories for Data Objects](https://barrento.test/blog/stop-writing-arrays-in-your-tests-laravel-factories-for-data-objects) - The article that inspired this package
 
 ## License
 
