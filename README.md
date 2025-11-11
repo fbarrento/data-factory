@@ -1,5 +1,4 @@
 # Stop Writing Arrays in Your Tests: Use Array and Data Object Factories
-# ================================================================
 
 <p align="center">
     <a href="https://github.com/fbarrento/data-factory/actions"><img alt="GitHub Workflow Status" src="https://github.com/fbarrento/data-factory/actions/workflows/tests.yml/badge.svg"></a>
