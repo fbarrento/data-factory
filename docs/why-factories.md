@@ -54,9 +54,9 @@ it('processes failed deployment', function () {
 ```
 
 **Problems:**
-- **Repetition**: Each test duplicates 10+ lines of setup code
-- **Noise**: The interesting test logic is buried in constructor arguments
-- **Brittle**: Add one parameter to `Deployment`? Update 50+ tests
+- **Repetition**: Each test duplicates 10+ lines of array setup code
+- **Noise**: The interesting test logic is buried in array keys and values
+- **Brittle**: Add one field to the deployment structure? Update 50+ tests
 - **Hard to read**: What's actually being tested here?
 - **Inconsistent**: Different tests might use slightly different test data
 
@@ -97,17 +97,32 @@ it('processes failed deployment', function () {
 ```php
 // Without factories - repetitive
 it('handles pending deployment', function () {
-    $deployment = new Deployment(/* 10 lines */);
+    $deployment = [
+        'id' => '...',
+        'status' => 'pending',
+        'branch_name' => 'main',
+        // ... 7 more fields
+    ];
     // test logic
 });
 
 it('handles running deployment', function () {
-    $deployment = new Deployment(/* 10 lines, status changed */);
+    $deployment = [
+        'id' => '...',
+        'status' => 'running',
+        'branch_name' => 'main',
+        // ... 7 more fields
+    ];
     // test logic
 });
 
 it('handles succeeded deployment', function () {
-    $deployment = new Deployment(/* 10 lines, status changed */);
+    $deployment = [
+        'id' => '...',
+        'status' => 'succeeded',
+        'branch_name' => 'main',
+        // ... 7 more fields
+    ];
     // test logic
 });
 
@@ -134,11 +149,11 @@ it('handles succeeded deployment', function () {
 // Without factories - painful
 it('processes batch of deployments', function () {
     $deployments = [
-        new Deployment(/* 10 lines */),
-        new Deployment(/* 10 lines */),
-        new Deployment(/* 10 lines */),
-        new Deployment(/* 10 lines */),
-        new Deployment(/* 10 lines */),
+        ['id' => '...', 'status' => 'pending', /* 8 more fields */],
+        ['id' => '...', 'status' => 'running', /* 8 more fields */],
+        ['id' => '...', 'status' => 'succeeded', /* 8 more fields */],
+        ['id' => '...', 'status' => 'failed', /* 8 more fields */],
+        ['id' => '...', 'status' => 'succeeded', /* 8 more fields */],
     ];
     // test logic with 50+ lines of setup overhead
 });
@@ -150,25 +165,34 @@ it('processes batch of deployments', function () {
 });
 ```
 
-### 3. Testing Complex Object Graphs
+### 3. Testing Complex Nested Structures
 
 ```php
 // Without factories - nightmare
 it('creates application with full setup', function () {
-    $repository = new Repository(/* ... */);
-    $organization = new Organization(/* ... */);
-    $deployment1 = new Deployment(/* ... */);
-    $deployment2 = new Deployment(/* ... */);
-    $environment1 = new Environment(/* ... */, $deployment1);
-    $environment2 = new Environment(/* ... */, $deployment2);
-
-    $application = new Application(
-        $repository,
-        $organization,
-        [$environment1, $environment2],
-        [/* many deployments */]
-    );
-    // test logic - 30+ lines later
+    $application = [
+        'id' => '...',
+        'name' => 'My App',
+        'repository' => [
+            'id' => '...',
+            'name' => 'my-repo',
+            'full_name' => 'user/my-repo',
+        ],
+        'organization' => [
+            'id' => '...',
+            'name' => 'My Org',
+        ],
+        'environments' => [
+            ['id' => '...', 'name' => 'production', /* 8 more fields */],
+            ['id' => '...', 'name' => 'staging', /* 8 more fields */],
+        ],
+        'deployments' => [
+            ['id' => '...', 'status' => 'succeeded', /* 8 more fields */],
+            ['id' => '...', 'status' => 'succeeded', /* 8 more fields */],
+            // ... 8 more deployments
+        ],
+    ];
+    // test logic - 40+ lines later
 });
 
 // With factories - elegant
@@ -184,7 +208,7 @@ it('creates application with full setup', function () {
 // Easy to test edge cases with custom attributes
 it('handles deployment with very long commit message', function () {
     $deployment = DeploymentFactory::new()->make([
-        'commitMessage' => str_repeat('a', 10000),
+        'commit_message' => str_repeat('a', 10000),
     ]);
 
     // test logic
@@ -192,7 +216,7 @@ it('handles deployment with very long commit message', function () {
 
 it('handles deployment from feature branch', function () {
     $deployment = DeploymentFactory::new()
-        ->make(['branchName' => 'feature/long-branch-name']);
+        ->make(['branch_name' => 'feature/long-branch-name']);
 
     // test logic
 });
@@ -202,31 +226,31 @@ it('handles deployment from feature branch', function () {
 
 ### ✅ Use Factories When:
 
-- Creating objects with 3+ properties
-- The same object type appears in multiple tests
-- Testing different states of an object
-- Creating complex nested object graphs
+- Creating data structures with 3+ fields
+- The same data type appears in multiple tests
+- Testing different states or variations
+- Creating complex nested structures
 - You need realistic fake data (names, emails, UUIDs, etc.)
 
 ### ⚠️ Consider Inline Data When:
 
-- The object is very simple (1-2 properties)
+- The data is very simple (1-2 fields)
 - The specific value is critical to the test
 - It's used only once in the entire test suite
 
 ```php
 // Inline is fine here - the specific value matters
 it('validates minimum price', function () {
-    $product = new Product(price: 0.01);
+    $product = ['price' => 0.01];
 
-    expect($product->isValid())->toBeTrue();
+    expect(validatePrice($product))->toBeTrue();
 });
 
 // But factories are better for most cases
 it('calculates total price with tax', function () {
     $product = ProductFactory::new()->make();
 
-    expect($product->totalWithTax())->toBeGreaterThan($product->price);
+    expect(calculateTax($product))->toBeGreaterThan($product['price']);
 });
 ```
 

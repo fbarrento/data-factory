@@ -77,18 +77,18 @@ it('creates multiple test deployments', function () {
 ```php
 // ❌ Without factories - repetitive and brittle
 it('processes deployment', function () {
-    $deployment = new Deployment(
-        id: '123e4567-e89b-12d3-a456-426614174000',
-        status: 'deployment.succeeded',
-        branchName: 'main',
-        commitHash: 'a1b2c3d4e5f6...',
-        commitMessage: 'Deploy feature X',
-        failureReason: null,
-        phpMajorVersion: '8.4',
-        usesOctane: true,
-        startedAt: new DateTime('2024-01-15 10:00:00'),
-        finishedAt: new DateTime('2024-01-15 10:05:00')
-    );
+    $deployment = [
+        'id' => '123e4567-e89b-12d3-a456-426614174000',
+        'status' => 'deployment.succeeded',
+        'branch_name' => 'main',
+        'commit_hash' => 'a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0',
+        'commit_message' => 'Deploy feature X to production',
+        'failure_reason' => null,
+        'php_major_version' => '8.4',
+        'uses_octane' => true,
+        'started_at' => '2024-01-15 10:00:00',
+        'finished_at' => '2024-01-15 10:05:00',
+    ];
 
     // Your actual test logic here...
 });
@@ -99,7 +99,7 @@ it('processes deployment', function () {
 it('processes deployment', function () {
     $deployment = DeploymentFactory::new()->succeeded()->make();
 
-    // Your actual test logic here - the interesting part!
+    // Your actual test logic here - clear and focused!
 });
 ```
 
