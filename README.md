@@ -1,4 +1,5 @@
-# Stop Writing Arrays in Your Tests: Laravel Factories for Data Objects
+# Stop Writing Arrays in Your Tests: Use Array and Data Object Factories
+# ================================================================
 
 <p align="center">
     <a href="https://github.com/fbarrento/data-factory/actions"><img alt="GitHub Workflow Status" src="https://github.com/fbarrento/data-factory/actions/workflows/tests.yml/badge.svg"></a>
@@ -155,32 +156,29 @@ Features under consideration for future releases:
 
 Have ideas for other features? [Open an issue](https://github.com/fbarrento/data-factory/issues) or submit a PR!
 
-## Development
+## Contributing
 
-🧹 Keep a modern codebase with **Pint**:
+We welcome contributions! Data Factory is built with high quality standards:
+
+- ✅ 100% test coverage
+- ✅ 100% type coverage
+- ✅ PHPStan level 9
+- ✅ Modern PHP 8.2+ patterns
+
+**Quick Start for Contributors:**
+
 ```bash
+# Run all quality checks
+composer test
+
+# Format code
 composer lint
-```
 
-✅ Run refactors using **Rector**:
-```bash
-composer refactor
-```
-
-⚗️ Run static analysis using **PHPStan**:
-```bash
-composer test:types
-```
-
-✅ Run unit tests using **PEST**:
-```bash
+# Run tests with coverage
 composer test:unit
 ```
 
-🚀 Run the entire test suite:
-```bash
-composer test
-```
+For detailed contributing guidelines, development setup, and code standards, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## References
 
