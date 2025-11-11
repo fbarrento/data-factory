@@ -6,8 +6,8 @@ use FBarrento\DataFactory\ArrayFactory;
 use Tests\Examples\Vehicle\VehicleArrayFactory;
 
 dataset('vehicles', [
-    [fn (): mixed => new VehicleArrayFactory()->make(['make' => 'Toyota'])],
-    [fn (): mixed => new VehicleArrayFactory()->make(['make' => 'Toyota'])],
+    [fn () => VehicleArrayFactory::new()->make(['make' => 'Toyota'])],
+    [fn () => VehicleArrayFactory::new()->make(['make' => 'Toyota'])],
 ]);
 
 // @phpstan-ignore-next-line method.notFound
