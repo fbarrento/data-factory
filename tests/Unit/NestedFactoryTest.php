@@ -7,6 +7,8 @@ use Tests\Examples\Customer\Address;
 use Tests\Examples\Customer\AddressFactory;
 use Tests\Examples\Customer\Customer;
 use Tests\Examples\Customer\CustomerFactory;
+use Tests\Examples\Order\Order;
+use Tests\Examples\Order\OrderStatus;
 
 test('creates customer with nested address using static factory method', function (): void {
 
@@ -192,5 +194,68 @@ test('address factory london state method works', function (): void {
         ->make();
 
     expect($address->city)->toBe('London');
+
+});
+
+test('customer has nested orders with enums', function (): void {
+
+    /** @var Customer $customer */
+    $customer = Customer::factory()->make();
+
+    expect($customer->orders)->toBeArray()
+        ->and($customer->orders)->toHaveCount(3);
+
+    foreach ($customer->orders as $order) {
+        expect($order)
+            ->toBeInstanceOf(Order::class)
+            ->and($order->status)->toBeInstanceOf(OrderStatus::class);
+    }
+
+});
+
+test('can create customer with specific number of orders', function (): void {
+
+    /** @var Customer $customer */
+    $customer = Customer::factory()
+        ->make([
+            'orders' => Order::factory()->count(5)->make(),
+        ]);
+
+    expect($customer->orders)->toHaveCount(5);
+
+    foreach ($customer->orders as $order) {
+        expect($order)->toBeInstanceOf(Order::class);
+    }
+
+});
+
+test('can create customer with delivered orders', function (): void {
+
+    /** @var Customer $customer */
+    $customer = Customer::factory()
+        ->make([
+            'orders' => Order::factory()->delivered()->count(2)->make(),
+        ]);
+
+    expect($customer->orders)->toHaveCount(2);
+
+    foreach ($customer->orders as $order) {
+        expect($order->status)->toBe(OrderStatus::Delivered);
+    }
+
+});
+
+test('multiple customers have different order instances', function (): void {
+
+    /** @var Customer[] $customers */
+    $customers = Customer::factory()->count(2)->make();
+
+    expect($customers)->toHaveCount(2)
+        ->and($customers[0]->orders)->toBeArray()
+        ->and($customers[1]->orders)->toBeArray();
+
+    // Verify orders are different instances
+    expect($customers[0]->orders[0])
+        ->not->toBe($customers[1]->orders[0]);
 
 });

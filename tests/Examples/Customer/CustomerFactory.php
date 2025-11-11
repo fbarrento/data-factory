@@ -3,6 +3,7 @@
 namespace Tests\Examples\Customer;
 
 use FBarrento\DataFactory\Factory;
+use Tests\Examples\Order\Order;
 
 /**
  * @extends Factory<Customer>
@@ -17,6 +18,12 @@ class CustomerFactory extends Factory
             'name' => $this->fake->name(),
             'email' => $this->fake->email(),
             'address' => Address::factory(),
+            'orders' => function (): array {
+                /** @var array<int, Order> */
+                $orders = Order::factory()->count(3)->make();
+
+                return $orders;
+            },
         ];
     }
 
