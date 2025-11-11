@@ -25,4 +25,9 @@ class VehicleFactory extends Factory
             'make' => 'Mercedes',
         ]);
     }
+
+    public function withModel(string $model): self
+    {
+        return $this->state(['model' => $model]);
+    }
 }
