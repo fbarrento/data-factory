@@ -12,7 +12,7 @@ A simple class representing an organization:
 <?php
 
 use FBarrento\DataFactory\Factory;
-use FBarrento\DataFactory\HasDataFactory;
+use FBarrento\DataFactory\Concerns\HasDataFactory;
 
 class Organization
 {

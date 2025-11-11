@@ -2,7 +2,7 @@
 
 namespace Tests\Examples\Customer;
 
-use FBarrento\DataFactory\HasDataFactory;
+use FBarrento\DataFactory\Concerns\HasDataFactory;
 
 class Address
 {

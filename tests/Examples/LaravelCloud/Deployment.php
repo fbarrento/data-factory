@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Examples\LaravelCloud;
 
 use DateTimeInterface;
-use FBarrento\DataFactory\HasDataFactory;
+use FBarrento\DataFactory\Concerns\HasDataFactory;
 
 readonly class Deployment
 {

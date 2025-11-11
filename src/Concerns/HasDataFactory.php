@@ -1,6 +1,8 @@
 <?php
 
-namespace FBarrento\DataFactory;
+namespace FBarrento\DataFactory\Concerns;
+
+use FBarrento\DataFactory\Factory;
 
 /**
  * @template TFactory of Factory

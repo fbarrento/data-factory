@@ -2,7 +2,7 @@
 
 namespace Tests\Examples\Vehicle;
 
-use FBarrento\DataFactory\HasDataFactory;
+use FBarrento\DataFactory\Concerns\HasDataFactory;
 
 class Vehicle
 {

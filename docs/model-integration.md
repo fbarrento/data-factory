@@ -11,7 +11,7 @@ Use the `HasDataFactory` trait on your class and implement the `newFactory()` me
 ```php
 <?php
 
-use FBarrento\DataFactory\HasDataFactory;
+use FBarrento\DataFactory\Concerns\HasDataFactory;
 
 class Application
 {
@@ -58,7 +58,7 @@ $custom = Application::factory()->make([
 <?php
 
 use FBarrento\DataFactory\Factory;
-use FBarrento\DataFactory\HasDataFactory;
+use FBarrento\DataFactory\Concerns\HasDataFactory;
 
 // Model class
 class Deployment
@@ -142,7 +142,7 @@ If you already know Laravel's factory pattern, you already know Data Factory—t
 ```php
 <?php
 
-use FBarrento\DataFactory\HasDataFactory;
+use FBarrento\DataFactory\Concerns\HasDataFactory;
 
 class Environment
 {
