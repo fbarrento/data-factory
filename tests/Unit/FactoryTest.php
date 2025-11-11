@@ -1,7 +1,7 @@
 <?php
 
-use Tests\Helpers\Vehicle;
-use Tests\Helpers\VehicleFactory;
+use Tests\Examples\Vehicle\Vehicle;
+use Tests\Examples\Vehicle\VehicleFactory;
 
 test('makes a mercedes', function (): void {
 

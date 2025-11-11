@@ -1,6 +1,6 @@
 <?php
 
-use Tests\Helpers\Vehicle;
+use Tests\Examples\Vehicle\Vehicle;
 
 test('factory method creates a instance', function (): void {
 

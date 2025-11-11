@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use FBarrento\DataFactory\Sequence;
-use Tests\Helpers\Vehicle;
+use Tests\Examples\Vehicle\Vehicle;
 
 test('alternates values with sequence', function (): void {
     /** @var Vehicle[] $vehicles */

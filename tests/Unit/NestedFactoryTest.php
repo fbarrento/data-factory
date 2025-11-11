@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 use FBarrento\DataFactory\ArrayFactory;
-use Tests\Helpers\Address;
-use Tests\Helpers\AddressFactory;
-use Tests\Helpers\Customer;
-use Tests\Helpers\CustomerFactory;
+use Tests\Examples\Customer\Address;
+use Tests\Examples\Customer\AddressFactory;
+use Tests\Examples\Customer\Customer;
+use Tests\Examples\Customer\CustomerFactory;
 
 test('creates customer with nested address using static factory method', function (): void {
 

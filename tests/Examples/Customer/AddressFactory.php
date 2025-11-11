@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Helpers;
+namespace Tests\Examples\Customer;
 
 use FBarrento\DataFactory\Factory;
 

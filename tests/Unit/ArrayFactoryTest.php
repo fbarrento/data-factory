@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use FBarrento\DataFactory\ArrayFactory;
-use Tests\Helpers\VehicleArrayFactory;
+use Tests\Examples\Vehicle\VehicleArrayFactory;
 
 dataset('vehicles', [
     [fn (): mixed => new VehicleArrayFactory()->make(['make' => 'Toyota'])],

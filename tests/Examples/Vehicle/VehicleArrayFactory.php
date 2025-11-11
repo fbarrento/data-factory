@@ -1,16 +1,14 @@
 <?php
 
-namespace Tests\Helpers;
+namespace Tests\Examples\Vehicle;
 
-use FBarrento\DataFactory\Factory;
+use FBarrento\DataFactory\ArrayFactory;
 
 /**
- * @extends Factory<Vehicle>
+ * @extends ArrayFactory<array{make:string, model:string}>
  */
-class VehicleFactory extends Factory
+class VehicleArrayFactory extends ArrayFactory
 {
-    protected string $dataObject = Vehicle::class;
-
     public function definition(): array
     {
         return [
@@ -24,10 +22,5 @@ class VehicleFactory extends Factory
         return $this->state(fn (array $attributes): array => [
             'make' => 'Mercedes',
         ]);
-    }
-
-    public function withModel(string $model): self
-    {
-        return $this->state(['model' => $model]);
     }
 }
