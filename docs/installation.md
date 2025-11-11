@@ -4,21 +4,25 @@
 
 - PHP 8.4 or higher
 - Composer
+- A PHP testing framework (PEST, PHPUnit, Codeception, etc.)
 
 ## Install via Composer
 
-Install Data Factory as a development dependency:
+Install Data Factory as a development dependency for your test suite:
 
 ```bash
 composer require fbarrento/data-factory --dev
 ```
 
+> **Note**: The `--dev` flag installs it as a development dependency since factories are primarily used for testing.
+
 ## Verify Installation
 
-Create a simple factory to verify everything is working:
+Create a simple factory in your tests directory and use it in a PEST test:
 
 ```php
 <?php
+// tests/Factories/UserFactory.php
 
 use FBarrento\DataFactory\Factory;
 
@@ -32,11 +36,18 @@ class UserFactory extends Factory
         ];
     }
 }
+```
 
-// Create a user
-$user = UserFactory::new()->make();
+```php
+<?php
+// tests/Feature/UserTest.php
 
-var_dump($user);
+it('creates a user', function () {
+    $user = UserFactory::new()->make();
+
+    expect($user->name)->toBeString()
+        ->and($user->email)->toContain('@');
+});
 ```
 
 ## What's Included
@@ -49,5 +60,6 @@ Data Factory automatically includes:
 
 ## Next Steps
 
+- [Why Use Factories?](why-factories.md) - Learn how factories improve your tests
 - [Basic Usage](basic-usage.md) - Create your first factory
-- [Faker Integration](faker.md) - Learn about generating fake data
+- [Testing Guide](testing.md) - Complete guide to using factories in PEST tests

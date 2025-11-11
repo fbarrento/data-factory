@@ -1,6 +1,32 @@
 # Testing with Data Factory
 
-Data Factory is designed to make testing easier by providing flexible, reusable test data. This guide shows how to integrate factories into your PEST tests.
+**Factories make your tests cleaner, more maintainable, and easier to understand.** Built with PEST in mind, Data Factory works with any PHP testing framework (PHPUnit, PEST, Codeception, etc.), letting you focus on what you're actually testing instead of cluttering tests with repetitive object creation.
+
+## Why Factories for Testing?
+
+Without factories, your tests are full of noise:
+```php
+// ❌ Hard to read, repetitive
+it('processes deployment', function () {
+    $deployment = new Deployment('uuid', 'succeeded', 'main', 'abc123',...); // 10+ args
+    // actual test buried below
+});
+```
+
+With factories, tests are focused:
+```php
+// ✅ Clear, concise
+it('processes deployment', function () {
+    $deployment = DeploymentFactory::new()->succeeded()->make();
+    // actual test is obvious
+});
+```
+
+📖 **Read more**: [Why Use Factories?](why-factories.md) - Complete guide to the testing problems factories solve
+
+---
+
+This guide shows you how to integrate Data Factory into your tests. While examples use PEST syntax, the concepts apply to any PHP testing framework (PHPUnit, Codeception, etc.).
 
 ## Basic Test Setup
 
@@ -168,6 +194,81 @@ it('creates deployment for specific branch', function () {
     expect($deployment->branchName)->toBe('feature/custom-feature');
     expect($deployment->commitMessage)->toBe('Add custom feature');
 });
+```
+
+## Common Testing Patterns
+
+### Arrange-Act-Assert with Factories
+
+Factories shine in the Arrange phase of your tests:
+
+```php
+it('deploys application successfully', function () {
+    // Arrange - clean setup with factories
+    $deployment = DeploymentFactory::new()->pending()->make();
+    $deployer = new ApplicationDeployer();
+
+    // Act - the code being tested
+    $result = $deployer->deploy($deployment);
+
+    // Assert - verify the outcome
+    expect($result)->toBeTrue()
+        ->and($deployment->status)->toBe('deployment.succeeded');
+});
+```
+
+### Testing Edge Cases with States
+
+Use state methods to easily test different scenarios:
+
+```php
+it('handles deployment failures gracefully', function () {
+    $deployment = DeploymentFactory::new()->failed()->make();
+
+    expect($deployment->failureReason)->not->toBeNull();
+    // Your failure handling logic
+});
+
+it('handles long-running deployments', function () {
+    $deployment = DeploymentFactory::new()->running()->make();
+
+    expect($deployment->startedAt)->not->toBeNull()
+        ->and($deployment->finishedAt)->toBeNull();
+});
+```
+
+### Testing Relationships
+
+Nested factories make testing relationships simple:
+
+```php
+it('environment includes current deployment', function () {
+    $environment = EnvironmentFactory::new()->production()->make();
+
+    expect($environment->currentDeployment)->toBeInstanceOf(Deployment::class)
+        ->and($environment->currentDeployment->status)->toBe('deployment.succeeded');
+});
+```
+
+### Testing Validation
+
+Test validation rules with custom attributes:
+
+```php
+it('rejects deployment with invalid branch name', function () {
+    $deployment = DeploymentFactory::new()->make([
+        'branchName' => '',  // Invalid empty branch
+    ]);
+
+    expect(fn() => $validator->validate($deployment))
+        ->toThrow(ValidationException::class);
+});
+
+it('accepts deployment with valid data', function () {
+    $deployment = DeploymentFactory::new()->make();
+
+    $validator->validate($deployment);  // Should not throw
+})->throwsNoExceptions();
 ```
 
 ## Testing with HasDataFactory Trait

@@ -1,6 +1,8 @@
 # Sequences
 
-Sequences allow you to cycle through a set of values when creating multiple instances. This is useful when you want variation across your test data.
+Sequences allow you to cycle through a set of values when creating multiple instances. This is essential for testing behavior across different variations.
+
+💡 **Perfect for testing**: Sequences let you easily test how your code handles different states or values in a single test.
 
 ## Basic Sequences
 

@@ -8,19 +8,21 @@
 </p>
 
 ------
-A powerful, type-safe **test data factory** library for PHP. Create flexible test data for any PHP class or array structure.
+**The modern test data factory for PEST.** Write cleaner, more maintainable PHP tests with expressive factories.
+
+Inspired by Laravel's Eloquent factories, Data Factory brings the same elegant API to any PHP project—no framework required.
 
 > **Requires [PHP 8.4+](https://php.net/releases/)**
 
 ## Features
 
-- ✅ **Framework-agnostic** - Works with any PHP project, not tied to Laravel or Eloquent
-- ✅ **Type-safe** - Full PHP 8.4+ generics with 100% type coverage
-- ✅ **Flexible data** - Create objects or arrays, perfect for API testing
-- ✅ **Faker integration** - Generate realistic fake data out of the box
-- ✅ **States & sequences** - Define reusable variations and cycle through values
-- ✅ **Nested factories** - Build complex object graphs easily
-- ✅ **Clean syntax** - Chainable, intuitive API
+- ✅ **Write DRY test code** - Define test data once, reuse everywhere
+- ✅ **Readable test assertions** - Clear intent with named states like `->succeeded()`
+- ✅ **Easy complex objects** - Create nested graphs without boilerplate
+- ✅ **Built with PEST in mind** - Works with any PHP testing framework, optimized for PEST
+- ✅ **Framework-agnostic** - Works with any PHP class, not tied to Eloquent
+- ✅ **Type-safe factories** - Full PHP 8.4+ generics with 100% type coverage
+- ✅ **Faker integration** - Realistic test data out of the box
 
 ## Installation
 
@@ -33,6 +35,7 @@ composer require fbarrento/data-factory --dev
 ## Quick Start
 
 ```php
+// tests/Factories/DeploymentFactory.php
 use FBarrento\DataFactory\Factory;
 
 class DeploymentFactory extends Factory
@@ -53,12 +56,60 @@ class DeploymentFactory extends Factory
     }
 }
 
-// Create a single deployment
-$deployment = DeploymentFactory::new()->make();
+// tests/Feature/DeploymentTest.php
+it('handles successful deployments', function () {
+    $deployment = DeploymentFactory::new()->succeeded()->make();
 
-// Create 5 successful deployments
-$deployments = DeploymentFactory::new()->succeeded()->count(5)->make();
+    expect($deployment->status)->toBe('deployment.succeeded');
+});
+
+it('creates multiple test deployments', function () {
+    $deployments = DeploymentFactory::new()->count(5)->make();
+
+    expect($deployments)->toHaveCount(5);
+});
 ```
+
+## Why Use Factories for Testing?
+
+**The Problem:** Test setup code is repetitive, hard to maintain, and clutters your test files.
+
+```php
+// ❌ Without factories - repetitive and brittle
+it('processes deployment', function () {
+    $deployment = new Deployment(
+        id: '123e4567-e89b-12d3-a456-426614174000',
+        status: 'deployment.succeeded',
+        branchName: 'main',
+        commitHash: 'a1b2c3d4e5f6...',
+        commitMessage: 'Deploy feature X',
+        failureReason: null,
+        phpMajorVersion: '8.4',
+        usesOctane: true,
+        startedAt: new DateTime('2024-01-15 10:00:00'),
+        finishedAt: new DateTime('2024-01-15 10:05:00')
+    );
+
+    // Your actual test logic here...
+});
+```
+
+```php
+// ✅ With factories - clean and focused
+it('processes deployment', function () {
+    $deployment = DeploymentFactory::new()->succeeded()->make();
+
+    // Your actual test logic here - the interesting part!
+});
+```
+
+**The Benefits:**
+
+- **DRY (Don't Repeat Yourself)** - Define test data once, reuse across all tests
+- **Maintainability** - Change data structure in one place, not hundreds of tests
+- **Readability** - `->succeeded()` is clearer than 10 lines of setup
+- **Flexibility** - Easy to test edge cases with different states
+- **Focus** - Spend time testing behavior, not setting up data
 
 ## Documentation
 

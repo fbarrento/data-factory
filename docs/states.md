@@ -1,10 +1,12 @@
 # States
 
-States allow you to define reusable variations of your factory. They're perfect for creating different configurations of the same type of object.
+States allow you to define reusable variations of your factory. They're perfect for testing different scenarios and configurations.
+
+💡 **Perfect for testing**: States make your test intent crystal clear - `->succeeded()` is much more readable than manually setting multiple attributes.
 
 ## Defining Custom State Methods
 
-Create dedicated methods for each state to provide a clean, expressive API:
+Create dedicated methods for each state to provide a clean, expressive API for your tests:
 
 ```php
 <?php

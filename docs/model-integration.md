@@ -2,6 +2,8 @@
 
 The `HasDataFactory` trait allows you to integrate factory functionality directly into your classes, providing a clean and intuitive API.
 
+This follows the same pattern as Laravel's Eloquent factories (`User::factory()`), but works with any PHP class—not just Eloquent models.
+
 ## Adding the Trait
 
 Use the `HasDataFactory` trait on your class and implement the `newFactory()` method:
@@ -121,17 +123,19 @@ $app = ApplicationFactory::new()->make();
 
 Your IDE can autocomplete `Application::factory()` when you have the class open.
 
-### 3. Consistency
+### 3. Familiar to Laravel Developers
 
-If you're familiar with Laravel's Eloquent factories, this syntax will feel natural:
+The API intentionally mirrors Laravel's Eloquent factories for consistency:
 
 ```php
-// Laravel Eloquent
+// Laravel Eloquent (creates and saves to database)
 $user = User::factory()->create();
 
-// Data Factory
+// Data Factory (creates object in memory)
 $user = User::factory()->make();
 ```
+
+If you already know Laravel's factory pattern, you already know Data Factory—the difference is `make()` instead of `create()` since we're not persisting to a database.
 
 ## Real-World Example: Laravel Cloud Classes
 

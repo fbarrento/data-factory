@@ -2,7 +2,11 @@
 
 ## Creating Your First Factory
 
-A factory is a class that extends `FBarrento\DataFactory\Factory` and defines how to create instances of your data objects.
+A factory is a class that extends `FBarrento\DataFactory\Factory` and defines how to create instances of your data objects for testing.
+
+If you've used Laravel's Eloquent factories, this will feel familiar—the API is intentionally similar, but works with any PHP class.
+
+💡 **Common in tests**: Factories are typically stored in `tests/Factories/` or `tests/Helpers/` directories.
 
 Let's create a factory for a `Deployment` class based on Laravel Cloud API:
 
@@ -60,7 +64,7 @@ echo $deployment->branchName; // "main"
 
 ### Multiple Instances
 
-Use the `count()` method to create multiple instances:
+💡 **Common in tests**: Use `count()` to test behavior across multiple objects.
 
 ```php
 $deployments = DeploymentFactory::new()->count(5)->make();
@@ -69,6 +73,13 @@ $deployments = DeploymentFactory::new()->count(5)->make();
 foreach ($deployments as $deployment) {
     echo $deployment->id . "\n";
 }
+
+// In a PEST test:
+it('processes multiple deployments', function () {
+    $deployments = DeploymentFactory::new()->count(5)->make();
+
+    expect($deployments)->toHaveCount(5);
+});
 ```
 
 ## Overriding Attributes

@@ -1,24 +1,28 @@
 # Data Factory Documentation
 
-A powerful test data factory library for PHP 8.4+. Create flexible, type-safe test data for your PHP applications without framework dependencies.
+**The modern test data factory for PEST.** Create expressive, maintainable test data for your PEST test suite.
+
+Inspired by Laravel's Eloquent factories, Data Factory follows the same intuitive API you already know—but works with any PHP class, not just Eloquent models.
 
 ## Why Data Factory?
 
+- **Familiar API**: Inspired by Laravel's factories—if you know Laravel, you already know this
+- **Built with PEST in mind**: Works with any PHP testing framework, optimized for PEST's expressive syntax
+- **Write DRY test code**: Define test data once, reuse across all tests
+- **Readable tests**: Clear intent with named states like `->succeeded()`
+- **Easy complex objects**: Create nested graphs without boilerplate
 - **Framework-agnostic**: Works with any PHP class or array structure, not tied to Eloquent
 - **Type-safe**: Full PHP 8.4+ generics support with 100% type coverage
-- **Flexible**: Supports both objects and arrays, perfect for API testing
-- **Powerful sequences**: Built-in cycling sequences with closure support
-- **Clean syntax**: Chainable API inspired by Laravel but lighter and more versatile
 - **Well-tested**: 100% code coverage, PHPStan level 9 compliant
 
 ## Features
 
-- ✅ Create single or multiple instances with `make()` and `count()`
-- ✅ Generate realistic fake data with integrated Faker support
-- ✅ Define reusable states for different variations
-- ✅ Use sequences to cycle through values
-- ✅ Nest factories for complex object graphs
-- ✅ Create arrays instead of objects with `ArrayFactory`
+- ✅ Clean, focused test files without repetitive setup code
+- ✅ Expressive state methods for testing different scenarios
+- ✅ Generate realistic fake data with integrated Faker
+- ✅ Create complex object graphs with nested factories
+- ✅ Test variations easily with sequences
+- ✅ Support for both objects and arrays (perfect for API testing)
 - ✅ Integrate with your classes using `HasDataFactory` trait
 
 ## Documentation
@@ -27,21 +31,25 @@ A powerful test data factory library for PHP 8.4+. Create flexible, type-safe te
 - [Installation](installation.md) - Install and setup Data Factory
 - [Basic Usage](basic-usage.md) - Create your first factory
 
+### Testing with PEST
+- [Why Use Factories?](why-factories.md) - The testing problems factories solve
+- [Testing Guide](testing.md) - Complete guide to using factories in PEST tests
+
 ### Core Features
 - [Faker Integration](faker.md) - Generate realistic fake data
-- [States](states.md) - Define reusable state variations
-- [Sequences](sequences.md) - Cycle through values for multiple instances
-- [Nested Factories](nested-factories.md) - Create complex object graphs
+- [States](states.md) - Define reusable state variations for test scenarios
+- [Sequences](sequences.md) - Test behavior across multiple variations
+- [Nested Factories](nested-factories.md) - Create complex test object graphs
 
 ### Advanced Usage
-- [Array Factories](array-factories.md) - Generate arrays for JSON/API responses
-- [Model Integration](model-integration.md) - Integrate factories with your classes using HasDataFactory trait
+- [Array Factories](array-factories.md) - Generate arrays for JSON/API testing
+- [Class Integration](model-integration.md) - Integrate factories with your classes using HasDataFactory trait
 - [Advanced Examples](advanced-examples.md) - Real-world Laravel Cloud API examples
-- [Testing](testing.md) - Use factories in your PEST tests
 
 ## Quick Example
 
 ```php
+// tests/Factories/DeploymentFactory.php
 use FBarrento\DataFactory\Factory;
 
 class DeploymentFactory extends Factory
@@ -53,29 +61,21 @@ class DeploymentFactory extends Factory
             'status' => 'pending',
             'branch_name' => 'main',
             'commit_hash' => $this->fake->sha1(),
-            'started_at' => null,
-            'finished_at' => null,
         ];
     }
 
     public function succeeded(): static
     {
-        return $this->state([
-            'status' => 'deployment.succeeded',
-            'started_at' => $this->fake->dateTime(),
-            'finished_at' => $this->fake->dateTime(),
-        ]);
+        return $this->state(['status' => 'deployment.succeeded']);
     }
 }
 
-// Create a single deployment (pending by default)
-$deployment = DeploymentFactory::new()->make();
+// tests/Feature/DeploymentTest.php
+it('handles successful deployments', function () {
+    $deployment = DeploymentFactory::new()->succeeded()->make();
 
-// Create 5 successful deployments
-$deployments = DeploymentFactory::new()
-    ->succeeded()
-    ->count(5)
-    ->make();
+    expect($deployment->status)->toBe('deployment.succeeded');
+});
 ```
 
 ## Support
