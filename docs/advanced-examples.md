@@ -103,10 +103,18 @@ class RepositoryFactory extends Factory
 
 ### 3. Deployment
 
-The `Deployment` class represents a deployment with various states and timestamps:
+The `Deployment` class represents a deployment with various states and timestamps. It uses an enum for type-safe status values:
 
 ```php
 <?php
+
+enum DeploymentStatus: string
+{
+    case Pending = 'pending';
+    case Running = 'deployment.running';
+    case Succeeded = 'deployment.succeeded';
+    case Failed = 'deployment.failed';
+}
 
 class Deployment
 {
@@ -114,7 +122,7 @@ class Deployment
 
     public function __construct(
         public string $id,
-        public string $status,
+        public DeploymentStatus $status,
         public string $branchName,
         public string $commitHash,
         public string $commitMessage,
@@ -143,7 +151,7 @@ class DeploymentFactory extends Factory
     {
         return [
             'id' => $this->fake->uuid(),
-            'status' => 'pending',
+            'status' => $this->fake->randomElement(DeploymentStatus::cases()),
             'branchName' => 'main',
             'commitHash' => $this->fake->sha1(),
             'commitMessage' => $this->fake->sentence(),
@@ -155,10 +163,17 @@ class DeploymentFactory extends Factory
         ];
     }
 
+    public function pending(): static
+    {
+        return $this->state([
+            'status' => DeploymentStatus::Pending,
+        ]);
+    }
+
     public function running(): static
     {
         return $this->state([
-            'status' => 'deployment.running',
+            'status' => DeploymentStatus::Running,
             'startedAt' => $this->fake->dateTimeBetween('-10 minutes', 'now'),
         ]);
     }
@@ -168,7 +183,7 @@ class DeploymentFactory extends Factory
         $startedAt = $this->fake->dateTimeBetween('-1 hour', '-30 minutes');
 
         return $this->state([
-            'status' => 'deployment.succeeded',
+            'status' => DeploymentStatus::Succeeded,
             'startedAt' => $startedAt,
             'finishedAt' => $this->fake->dateTimeBetween($startedAt, 'now'),
         ]);
@@ -179,7 +194,7 @@ class DeploymentFactory extends Factory
         $startedAt = $this->fake->dateTimeBetween('-1 hour', '-30 minutes');
 
         return $this->state([
-            'status' => 'deployment.failed',
+            'status' => DeploymentStatus::Failed,
             'failureReason' => $this->fake->randomElement([
                 'Build failed: npm install exited with code 1',
                 'Deployment timeout: exceeded 15 minute limit',
@@ -372,10 +387,10 @@ class ApplicationFactory extends Factory
             'deployments' => fn () => Deployment::factory()
                 ->count($count)
                 ->sequence(
-                    ['status' => 'deployment.succeeded'],
-                    ['status' => 'deployment.succeeded'],
-                    ['status' => 'deployment.succeeded'],
-                    ['status' => 'deployment.failed']
+                    ['status' => DeploymentStatus::Succeeded],
+                    ['status' => DeploymentStatus::Succeeded],
+                    ['status' => DeploymentStatus::Succeeded],
+                    ['status' => DeploymentStatus::Failed]
                 )
                 ->make(),
         ]);
@@ -455,7 +470,7 @@ class DeploymentResourceFactory extends ArrayFactory
             'id' => $this->fake->uuid(),
             'type' => 'deployments',
             'attributes' => [
-                'status' => 'deployment.succeeded',
+                'status' => DeploymentStatus::Succeeded->value,
                 'branch_name' => 'main',
                 'commit_hash' => $this->fake->sha1(),
                 'commit_message' => $this->fake->sentence(),
@@ -604,10 +619,10 @@ $deployments = Deployment::factory()
         'commitMessage' => "Deploy #{$seq->index}: {$this->fake->sentence()}",
     ])
     ->sequence(
-        ['status' => 'deployment.succeeded'],
-        ['status' => 'deployment.succeeded'],
-        ['status' => 'deployment.succeeded'],
-        ['status' => 'deployment.failed']
+        ['status' => DeploymentStatus::Succeeded],
+        ['status' => DeploymentStatus::Succeeded],
+        ['status' => DeploymentStatus::Succeeded],
+        ['status' => DeploymentStatus::Failed]
     )
     ->make();
 ```
