@@ -10,8 +10,6 @@
 
 ------
 
-## Stop Writing Arrays in Your Tests: Use Array and Data Object Factories
-
 **The modern test data factory for PEST.** Write cleaner, more maintainable PHP tests with expressive factories.
 
 Inspired by Laravel's Eloquent factories, Data Factory brings the same elegant API to any PHP project—no framework required.
