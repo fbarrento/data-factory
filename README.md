@@ -70,7 +70,7 @@ $deployments = DeploymentFactory::new()->succeeded()->count(5)->make();
 - **[Sequences](docs/sequences.md)** - Cycle through values
 - **[Nested Factories](docs/nested-factories.md)** - Build complex object graphs
 - **[Array Factories](docs/array-factories.md)** - Generate arrays for JSON/API responses
-- **[Model Integration](docs/model-integration.md)** - Integrate factories with your classes using HasDataFactory trait
+- **[Class Integration](docs/model-integration.md)** - Integrate factories with your classes using HasDataFactory trait
 - **[Advanced Examples](docs/advanced-examples.md)** - Real-world Laravel Cloud API examples
 - **[Testing](docs/testing.md)** - Use factories in PEST tests
 
@@ -100,6 +100,7 @@ Features under consideration for future releases:
   ```php
   Vehicle::factory()->count(200000)->chunk(1000)->toJson('fixtures/vehicles.json');
   ```
+- 🚨 **Exception Handling** - Custom exceptions with helpful error messages for configuration and validation errors
 
 Have ideas for other features? [Open an issue](https://github.com/fbarrento/data-factory/issues) or submit a PR!
 
