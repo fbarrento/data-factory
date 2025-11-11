@@ -1,4 +1,6 @@
-# Stop Writing Arrays in Your Tests: Use Array and Data Object Factories
+# PHP Data Factory
+
+## Stop Writing Arrays in Your Tests: Use Array and Data Object Factories
 
 
 <p align="center">
