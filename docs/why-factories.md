@@ -67,7 +67,7 @@ Factories provide reusable, expressive test data:
 ```php
 // ✅ tests/Feature/DeploymentTest.php - With factories
 it('processes successful deployment', function () {
-    $deployment = DeploymentFactory::new()->succeeded()->make();
+    $deployment = Deployment::factory()->succeeded()->make();
 
     $result = $deployer->process($deployment);
 
@@ -75,7 +75,7 @@ it('processes successful deployment', function () {
 });
 
 it('processes failed deployment', function () {
-    $deployment = DeploymentFactory::new()->failed()->make();
+    $deployment = Deployment::factory()->failed()->make();
 
     $result = $deployer->process($deployment);
 
@@ -128,17 +128,17 @@ it('handles succeeded deployment', function () {
 
 // With factories - expressive
 it('handles pending deployment', function () {
-    $deployment = DeploymentFactory::new()->pending()->make();
+    $deployment = Deployment::factory()->pending()->make();
     // test logic
 });
 
 it('handles running deployment', function () {
-    $deployment = DeploymentFactory::new()->running()->make();
+    $deployment = Deployment::factory()->running()->make();
     // test logic
 });
 
 it('handles succeeded deployment', function () {
-    $deployment = DeploymentFactory::new()->succeeded()->make();
+    $deployment = Deployment::factory()->succeeded()->make();
     // test logic
 });
 ```
@@ -160,7 +160,7 @@ it('processes batch of deployments', function () {
 
 // With factories - simple
 it('processes batch of deployments', function () {
-    $deployments = DeploymentFactory::new()->count(5)->make();
+    $deployments = Deployment::factory()->count(5)->make();
     // test logic
 });
 ```
@@ -197,7 +197,7 @@ it('creates application with full setup', function () {
 
 // With factories - elegant
 it('creates application with full setup', function () {
-    $application = ApplicationFactory::new()->complete()->make();
+    $application = Application::factory()->complete()->make();
     // test logic - that's it!
 });
 ```
@@ -207,7 +207,7 @@ it('creates application with full setup', function () {
 ```php
 // Easy to test edge cases with custom attributes
 it('handles deployment with very long commit message', function () {
-    $deployment = DeploymentFactory::new()->make([
+    $deployment = Deployment::factory()->make([
         'commit_message' => str_repeat('a', 10000),
     ]);
 
@@ -215,7 +215,7 @@ it('handles deployment with very long commit message', function () {
 });
 
 it('handles deployment from feature branch', function () {
-    $deployment = DeploymentFactory::new()
+    $deployment = Deployment::factory()
         ->make(['branch_name' => 'feature/long-branch-name']);
 
     // test logic
@@ -248,7 +248,7 @@ it('validates minimum price', function () {
 
 // But factories are better for most cases
 it('calculates total price with tax', function () {
-    $product = ProductFactory::new()->make();
+    $product = Product::factory()->make();
 
     expect(calculateTax($product))->toBeGreaterThan($product['price']);
 });
@@ -277,7 +277,7 @@ Define test data structures once, reuse everywhere. Change the definition in one
 When your `Deployment` class gains a new required parameter, update the factory definition—not 50 tests.
 
 ### Readability
-`DeploymentFactory::new()->succeeded()->make()` tells you exactly what kind of deployment you're testing.
+`Deployment::factory()->succeeded()->make()` tells you exactly what kind of deployment you're testing.
 
 ### Flexibility
 Easy to create variations:

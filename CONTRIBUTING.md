@@ -156,7 +156,7 @@ If this passes, you're good to go!
 Example:
 ```php
 it('creates multiple instances with count', function () {
-    $factories = VehicleFactory::new()->count(5)->make();
+    $factories = Vehicle::factory()->count(5)->make();
 
     expect($factories)->toHaveCount(5)
         ->each->toBeInstanceOf(Vehicle::class);

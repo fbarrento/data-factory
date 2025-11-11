@@ -60,7 +60,7 @@ it('processes deployment', function () {
 ```php
 // ✅ With factories - clean and focused
 it('processes deployment', function () {
-    $deployment = DeploymentFactory::new()->succeeded()->make();
+    $deployment = Deployment::factory()->succeeded()->make();
 
     // Your actual test logic here - clear and focused!
 });
@@ -100,13 +100,13 @@ class DeploymentFactory extends Factory
 
 // tests/Feature/DeploymentTest.php
 it('handles successful deployments', function () {
-    $deployment = DeploymentFactory::new()->succeeded()->make();
+    $deployment = Deployment::factory()->succeeded()->make();
 
     expect($deployment->status)->toBe('deployment.succeeded');
 });
 
 it('creates multiple test deployments', function () {
-    $deployments = DeploymentFactory::new()->count(5)->make();
+    $deployments = Deployment::factory()->count(5)->make();
 
     expect($deployments)->toHaveCount(5);
 });

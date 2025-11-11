@@ -115,7 +115,7 @@ $multiple = Deployment::factory()->count(10)->make();
 // With trait
 $app = Application::factory()->make();
 
-// Without trait
+// Without trait (not recommended for objects)
 $app = ApplicationFactory::new()->make();
 ```
 

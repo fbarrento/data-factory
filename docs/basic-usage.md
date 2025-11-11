@@ -56,7 +56,7 @@ The keys in the array should match:
 Use the `make()` method to create a single instance:
 
 ```php
-$deployment = DeploymentFactory::new()->make();
+$deployment = Deployment::factory()->make();
 
 echo $deployment->status; // "pending"
 echo $deployment->branchName; // "main"
@@ -67,7 +67,7 @@ echo $deployment->branchName; // "main"
 💡 **Common in tests**: Use `count()` to test behavior across multiple objects.
 
 ```php
-$deployments = DeploymentFactory::new()->count(5)->make();
+$deployments = Deployment::factory()->count(5)->make();
 
 // Returns an array of 5 Deployment objects
 foreach ($deployments as $deployment) {
@@ -76,7 +76,7 @@ foreach ($deployments as $deployment) {
 
 // In a PEST test:
 it('processes multiple deployments', function () {
-    $deployments = DeploymentFactory::new()->count(5)->make();
+    $deployments = Deployment::factory()->count(5)->make();
 
     expect($deployments)->toHaveCount(5);
 });
@@ -87,7 +87,7 @@ it('processes multiple deployments', function () {
 You can override specific attributes when calling `make()`:
 
 ```php
-$deployment = DeploymentFactory::new()->make([
+$deployment = Deployment::factory()->make([
     'status' => 'deployment.succeeded',
     'branchName' => 'feature/new-feature',
 ]);
@@ -97,12 +97,12 @@ echo $deployment->branchName; // "feature/new-feature"
 echo $deployment->commitHash; // Still uses fake data from definition()
 ```
 
-## The `new()` Method
+## The `factory()` Method
 
-The `new()` static method creates a new instance of the factory. This allows for method chaining:
+The `factory()` static method creates a new instance of the factory. This allows for method chaining:
 
 ```php
-DeploymentFactory::new()
+Deployment::factory()
     ->count(3)
     ->make(['status' => 'running']);
 ```

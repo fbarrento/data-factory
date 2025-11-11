@@ -17,7 +17,7 @@ With factories, tests are focused:
 ```php
 // ✅ Clear, concise
 it('processes deployment', function () {
-    $deployment = DeploymentFactory::new()->succeeded()->make();
+    $deployment = Deployment::factory()->succeeded()->make();
     // actual test is obvious
 });
 ```
@@ -33,10 +33,10 @@ This guide shows you how to integrate Data Factory into your tests. While exampl
 ```php
 <?php
 
-use Tests\Helpers\DeploymentFactory;
+use Tests\Helpers\Deployment;
 
 it('creates a deployment', function () {
-    $deployment = DeploymentFactory::new()->make();
+    $deployment = Deployment::factory()->make();
 
     expect($deployment->status)->toBe('pending');
     expect($deployment->branchName)->toBe('main');
@@ -49,14 +49,14 @@ States make it easy to test different scenarios:
 
 ```php
 it('handles successful deployments', function () {
-    $deployment = DeploymentFactory::new()->succeeded()->make();
+    $deployment = Deployment::factory()->succeeded()->make();
 
     expect($deployment->status)->toBe('deployment.succeeded');
     expect($deployment->finishedAt)->not->toBeNull();
 });
 
 it('handles failed deployments', function () {
-    $deployment = DeploymentFactory::new()->failed()->make();
+    $deployment = Deployment::factory()->failed()->make();
 
     expect($deployment->status)->toBe('deployment.failed');
     expect($deployment->failureReason)->not->toBeNull();
@@ -67,7 +67,7 @@ it('handles failed deployments', function () {
 
 ```php
 it('processes multiple deployments', function () {
-    $deployments = DeploymentFactory::new()->count(5)->make();
+    $deployments = Deployment::factory()->count(5)->make();
 
     expect($deployments)->toHaveCount(5);
     expect($deployments[0])->toBeInstanceOf(Deployment::class);
@@ -80,7 +80,7 @@ PEST datasets work great with factories:
 
 ```php
 it('handles different deployment statuses', function (string $status) {
-    $deployment = DeploymentFactory::new()
+    $deployment = Deployment::factory()
         ->state(['status' => $status])
         ->make();
 
@@ -97,14 +97,14 @@ it('handles different deployment statuses', function (string $status) {
 
 ```php
 it('creates application with repository', function () {
-    $application = ApplicationFactory::new()->make();
+    $application = Application::factory()->make();
 
     expect($application->repository)->toBeInstanceOf(Repository::class);
     expect($application->repository->fullName)->toContain('/');
 });
 
 it('creates application with environments', function () {
-    $application = ApplicationFactory::new()
+    $application = Application::factory()
         ->withEnvironments()
         ->make();
 
@@ -163,7 +163,7 @@ Test variations across multiple instances:
 
 ```php
 it('creates deployments with different statuses', function () {
-    $deployments = DeploymentFactory::new()
+    $deployments = Deployment::factory()
         ->count(4)
         ->sequence(
             ['status' => 'pending'],
@@ -186,7 +186,7 @@ Override factory defaults for specific test cases:
 
 ```php
 it('creates deployment for specific branch', function () {
-    $deployment = DeploymentFactory::new()->make([
+    $deployment = Deployment::factory()->make([
         'branchName' => 'feature/custom-feature',
         'commitMessage' => 'Add custom feature',
     ]);
@@ -205,7 +205,7 @@ Factories shine in the Arrange phase of your tests:
 ```php
 it('deploys application successfully', function () {
     // Arrange - clean setup with factories
-    $deployment = DeploymentFactory::new()->pending()->make();
+    $deployment = Deployment::factory()->pending()->make();
     $deployer = new ApplicationDeployer();
 
     // Act - the code being tested
@@ -223,14 +223,14 @@ Use state methods to easily test different scenarios:
 
 ```php
 it('handles deployment failures gracefully', function () {
-    $deployment = DeploymentFactory::new()->failed()->make();
+    $deployment = Deployment::factory()->failed()->make();
 
     expect($deployment->failureReason)->not->toBeNull();
     // Your failure handling logic
 });
 
 it('handles long-running deployments', function () {
-    $deployment = DeploymentFactory::new()->running()->make();
+    $deployment = Deployment::factory()->running()->make();
 
     expect($deployment->startedAt)->not->toBeNull()
         ->and($deployment->finishedAt)->toBeNull();
@@ -243,7 +243,7 @@ Nested factories make testing relationships simple:
 
 ```php
 it('environment includes current deployment', function () {
-    $environment = EnvironmentFactory::new()->production()->make();
+    $environment = Environment::factory()->production()->make();
 
     expect($environment->currentDeployment)->toBeInstanceOf(Deployment::class)
         ->and($environment->currentDeployment->status)->toBe('deployment.succeeded');
@@ -256,7 +256,7 @@ Test validation rules with custom attributes:
 
 ```php
 it('rejects deployment with invalid branch name', function () {
-    $deployment = DeploymentFactory::new()->make([
+    $deployment = Deployment::factory()->make([
         'branchName' => '',  // Invalid empty branch
     ]);
 
@@ -265,7 +265,7 @@ it('rejects deployment with invalid branch name', function () {
 });
 
 it('accepts deployment with valid data', function () {
-    $deployment = DeploymentFactory::new()->make();
+    $deployment = Deployment::factory()->make();
 
     $validator->validate($deployment);  // Should not throw
 })->throwsNoExceptions();
@@ -299,9 +299,9 @@ it('creates production application', function () {
 
 ```php
 it('validates deployment status transitions', function () {
-    $pending = DeploymentFactory::new()->make();
-    $running = DeploymentFactory::new()->running()->make();
-    $succeeded = DeploymentFactory::new()->succeeded()->make();
+    $pending = Deployment::factory()->make();
+    $running = Deployment::factory()->running()->make();
+    $succeeded = Deployment::factory()->succeeded()->make();
 
     expect($pending->status)->toBe('pending');
     expect($running->status)->toBe('deployment.running');
@@ -315,7 +315,7 @@ it('validates deployment status transitions', function () {
 
 ```php
 it('configures production environment correctly', function () {
-    $environment = EnvironmentFactory::new()->production()->make();
+    $environment = Environment::factory()->production()->make();
 
     expect($environment->name)->toBe('production');
     expect($environment->status)->toBe('running');
@@ -324,7 +324,7 @@ it('configures production environment correctly', function () {
 });
 
 it('configures staging environment correctly', function () {
-    $environment = EnvironmentFactory::new()->staging()->make();
+    $environment = Environment::factory()->staging()->make();
 
     expect($environment->name)->toBe('staging');
     expect($environment->status)->toBe('running');
@@ -335,7 +335,7 @@ it('configures staging environment correctly', function () {
 
 ```php
 it('creates complete application with all relationships', function () {
-    $application = ApplicationFactory::new()->complete()->make();
+    $application = Application::factory()->complete()->make();
 
     expect($application->repository)->toBeInstanceOf(Repository::class);
     expect($application->organization)->toBeInstanceOf(Organization::class);
@@ -437,7 +437,7 @@ it('processes application', function () {
 ```php
 // Good: Reuse factory instance
 beforeEach(function () {
-    $this->factory = DeploymentFactory::new();
+    $this->factory = Deployment::factory();
 });
 
 it('creates deployment', function () {
@@ -451,13 +451,13 @@ it('creates deployment', function () {
 ```php
 // For simple tests, avoid deep nesting
 it('tests deployment status', function () {
-    $deployment = DeploymentFactory::new()->make();
+    $deployment = Deployment::factory()->make();
     // Don't create full application just to test deployment
 });
 
 // Only use nested factories when testing relationships
 it('tests application with deployments', function () {
-    $application = ApplicationFactory::new()->withDeployments()->make();
+    $application = Application::factory()->withDeployments()->make();
     expect($application->deployments)->not->toBeEmpty();
 });
 ```

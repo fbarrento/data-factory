@@ -45,7 +45,7 @@ class UserFactory extends Factory
 // tests/Feature/UserTest.php
 
 it('creates a user', function () {
-    $user = UserFactory::new()->make();
+    $user = User::factory()->make();
 
     expect($user->name)->toBeString()
         ->and($user->email)->toContain('@');

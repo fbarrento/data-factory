@@ -63,13 +63,13 @@ Now you can use these methods for cleaner code:
 
 ```php
 // Create a production environment
-$production = EnvironmentFactory::new()->production()->make();
+$production = Environment::factory()->production()->make();
 
 // Create a staging environment
-$staging = EnvironmentFactory::new()->staging()->make();
+$staging = Environment::factory()->staging()->make();
 
 // Create a hibernating environment
-$hibernating = EnvironmentFactory::new()->hibernating()->make();
+$hibernating = Environment::factory()->hibernating()->make();
 ```
 
 ## Chaining States
@@ -77,7 +77,7 @@ $hibernating = EnvironmentFactory::new()->hibernating()->make();
 You can chain multiple state methods together. Later states override earlier ones:
 
 ```php
-$env = EnvironmentFactory::new()
+$env = Environment::factory()
     ->production()           // Sets production defaults
     ->hibernating()          // Overrides status to 'hibernating'
     ->make();
@@ -91,7 +91,7 @@ $env = EnvironmentFactory::new()
 You can override any attribute when calling `make()`:
 
 ```php
-$env = EnvironmentFactory::new()
+$env = Environment::factory()
     ->production()
     ->make([
         'name' => 'production-eu',  // Override the name
@@ -127,7 +127,7 @@ class DeploymentFactory extends Factory
     }
 }
 
-$deployment = DeploymentFactory::new()
+$deployment = Deployment::factory()
     ->succeeded()
     ->make([
         'status' => 'deployment.failed',  // 3. Final override
@@ -229,11 +229,11 @@ class DeploymentFactory extends Factory
 }
 
 // Usage examples
-$pendingDeploy = DeploymentFactory::new()->pending()->make();
-$runningDeploy = DeploymentFactory::new()->running()->make();
-$successDeploy = DeploymentFactory::new()->succeeded()->make();
-$failedDeploy = DeploymentFactory::new()->failed()->make();
-$featureSuccess = DeploymentFactory::new()->feature()->succeeded()->make();
+$pendingDeploy = Deployment::factory()->pending()->make();
+$runningDeploy = Deployment::factory()->running()->make();
+$successDeploy = Deployment::factory()->succeeded()->make();
+$failedDeploy = Deployment::factory()->failed()->make();
+$featureSuccess = Deployment::factory()->feature()->succeeded()->make();
 ```
 
 ## Next Steps

@@ -74,7 +74,7 @@ class DeploymentFactory extends Factory
 
 // tests/Feature/DeploymentTest.php
 it('handles successful deployments', function () {
-    $deployment = DeploymentFactory::new()->succeeded()->make();
+    $deployment = Deployment::factory()->succeeded()->make();
 
     expect($deployment->status)->toBe('deployment.succeeded');
 });

@@ -25,7 +25,7 @@ class DeploymentFactory extends Factory
     }
 }
 
-$deployments = DeploymentFactory::new()
+$deployments = Deployment::factory()
     ->count(4)
     ->sequence(
         ['status' => 'pending'],
@@ -47,7 +47,7 @@ $deployments = DeploymentFactory::new()
 If you create more instances than sequence values, the sequence wraps around:
 
 ```php
-$deployments = DeploymentFactory::new()
+$deployments = Deployment::factory()
     ->count(6)
     ->sequence(
         ['status' => 'pending'],
@@ -72,7 +72,7 @@ Use a closure to access the sequence index and create dynamic values:
 ```php
 use FBarrento\DataFactory\Sequence;
 
-$deployments = DeploymentFactory::new()
+$deployments = Deployment::factory()
     ->count(5)
     ->sequence(fn (Sequence $sequence) => [
         'branch_name' => 'feature/branch-' . $sequence->index,
@@ -92,7 +92,7 @@ $deployments = DeploymentFactory::new()
 You can chain multiple sequences together. Each applies independently:
 
 ```php
-$deployments = DeploymentFactory::new()
+$deployments = Deployment::factory()
     ->count(4)
     ->sequence(
         ['status' => 'succeeded'],
@@ -136,7 +136,7 @@ class EnvironmentFactory extends Factory
     }
 }
 
-$environments = EnvironmentFactory::new()
+$environments = Environment::factory()
     ->production()  // Apply production state first
     ->count(3)
     ->sequence(
@@ -156,7 +156,7 @@ Create a realistic deployment timeline with varying statuses and timestamps:
 ```php
 use FBarrento\DataFactory\Sequence;
 
-$deployments = DeploymentFactory::new()
+$deployments = Deployment::factory()
     ->count(10)
     ->sequence(fn (Sequence $seq) => [
         'branch_name' => $seq->index % 3 === 0 ? 'main' : "feature/task-{$seq->index}",
@@ -189,7 +189,7 @@ class EnvironmentFactory extends Factory
     }
 }
 
-$environments = EnvironmentFactory::new()
+$environments = Environment::factory()
     ->count(4)
     ->sequence(
         [
@@ -223,7 +223,7 @@ Combine sequences with Faker for dynamic, varied data:
 ```php
 use FBarrento\DataFactory\Sequence;
 
-$applications = ApplicationFactory::new()
+$applications = Application::factory()
     ->count(5)
     ->sequence(fn (Sequence $seq) => [
         'name' => $this->fake->company() . " App {$seq->index}",
@@ -238,14 +238,14 @@ Sequences reset after each `make()` call:
 
 ```php
 // First batch
-$batch1 = DeploymentFactory::new()
+$batch1 = Deployment::factory()
     ->count(2)
     ->sequence(['status' => 'pending'], ['status' => 'running'])
     ->make();
 // $batch1[0]->status = 'pending', $batch1[1]->status = 'running'
 
 // Second batch (sequence resets)
-$batch2 = DeploymentFactory::new()
+$batch2 = Deployment::factory()
     ->count(2)
     ->sequence(['status' => 'pending'], ['status' => 'running'])
     ->make();
@@ -258,7 +258,7 @@ Sequences must not be empty:
 
 ```php
 // This will throw an exception
-DeploymentFactory::new()
+Deployment::factory()
     ->sequence()  // Empty sequence - throws InvalidArgumentException
     ->make();
 ```

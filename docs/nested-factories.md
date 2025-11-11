@@ -50,7 +50,7 @@ class ApplicationFactory extends Factory
     }
 }
 
-$application = ApplicationFactory::new()->make();
+$application = Application::factory()->make();
 // $application->repository is a Repository object
 ```
 
@@ -140,9 +140,9 @@ $application = ApplicationFactory::new()->make();
 You can override attributes of nested factories when creating instances:
 
 ```php
-$application = ApplicationFactory::new()->make([
+$application = Application::factory()->make([
     'name' => 'My Custom App',
-    'repository' => RepositoryFactory::new()->make([
+    'repository' => Repository::factory()->make([
         'default_branch' => 'feature/custom',
     ]),
 ]);
@@ -180,7 +180,7 @@ class ApplicationFactory extends Factory
     }
 }
 
-$application = ApplicationFactory::new()->make();
+$application = Application::factory()->make();
 // $application->default_environment->current_deployment is a Deployment
 // $application->default_environment->primary_domain is a Domain
 ```
@@ -190,8 +190,8 @@ $application = ApplicationFactory::new()->make();
 Each nested factory creates a fresh instance:
 
 ```php
-$app1 = ApplicationFactory::new()->make();
-$app2 = ApplicationFactory::new()->make();
+$app1 = Application::factory()->make();
+$app2 = Application::factory()->make();
 
 // Each application gets its own unique repository
 $app1->repository->id !== $app2->repository->id  // true
@@ -217,14 +217,14 @@ class EnvironmentFactory extends Factory
     {
         return $this->state([
             'name' => 'production',
-            'current_deployment' => fn () => DeploymentFactory::new()
+            'current_deployment' => fn () => Deployment::factory()
                 ->succeeded()
                 ->make(),
         ]);
     }
 }
 
-$env = EnvironmentFactory::new()->production()->make();
+$env = Environment::factory()->production()->make();
 // $env->current_deployment has status 'deployment.succeeded'
 ```
 
@@ -304,7 +304,7 @@ class ApplicationFactory extends Factory
 }
 
 // Create a complete application with all nested resources
-$application = ApplicationFactory::new()->make();
+$application = Application::factory()->make();
 
 // Access nested data
 echo $application->name;
