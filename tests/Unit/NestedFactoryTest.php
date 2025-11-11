@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 use FBarrento\DataFactory\ArrayFactory;
 use Tests\Examples\Customer\Address;
-use Tests\Examples\Customer\AddressFactory;
 use Tests\Examples\Customer\Customer;
-use Tests\Examples\Customer\CustomerFactory;
 use Tests\Examples\Order\Order;
 use Tests\Examples\Order\OrderStatus;
 
@@ -29,7 +27,7 @@ test('creates customer with nested address using static factory method', functio
 test('creates customer with nested address using direct factory instantiation', function (): void {
 
     /** @var Customer $customer */
-    $customer = new CustomerFactory()
+    $customer = Customer::factory()
         ->make();
 
     expect($customer)
@@ -54,7 +52,7 @@ test('creates customer with nested address using closure syntax', function (): v
 
 test('each make call creates fresh nested objects', function (): void {
 
-    $factory = new CustomerFactory;
+    $factory = Customer::factory();
 
     /** @var Customer $customer1 */
     $customer1 = $factory->make();
@@ -134,7 +132,7 @@ test('nested factory in array factory works with direct factory instance', funct
             return [
                 'name' => $this->fake->name(),
                 'email' => $this->fake->email(),
-                'address' => new AddressFactory,
+                'address' => Address::factory(),
             ];
         }
     };

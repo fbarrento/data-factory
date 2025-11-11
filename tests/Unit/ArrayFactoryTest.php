@@ -19,7 +19,7 @@ test('can be used with data sets', function (array $vehicle): void {
 
 test('creates an array from the array factory', function (): void {
 
-    $vehicleArray = new VehicleArrayFactory()
+    $vehicleArray = VehicleArrayFactory::new()
         ->make([
             'make' => 'Toyota',
             'model' => 'Corolla',
@@ -35,7 +35,7 @@ test('creates an array from the array factory', function (): void {
 });
 
 test('can create a array factory', function (): void {
-    $arrayFactory = new VehicleArrayFactory;
+    $arrayFactory = VehicleArrayFactory::new();
 
     expect($arrayFactory)
         ->toBeInstanceOf(ArrayFactory::class);

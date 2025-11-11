@@ -1,11 +1,10 @@
 <?php
 
 use Tests\Examples\Vehicle\Vehicle;
-use Tests\Examples\Vehicle\VehicleFactory;
 
 test('makes a mercedes', function (): void {
 
-    $vehicleFactory = new VehicleFactory;
+    $vehicleFactory = Vehicle::factory();
 
     /** @var Vehicle[] $vehicles */
     $vehicles = $vehicleFactory
@@ -22,7 +21,7 @@ test('makes a mercedes', function (): void {
 
 test('makes multiple objects', function (): void {
 
-    $vehicleFactory = new VehicleFactory;
+    $vehicleFactory = Vehicle::factory();
 
     /** @var array<int, Vehicle> $vehicles */
     $vehicles = $vehicleFactory->count(3)->make();
@@ -40,7 +39,7 @@ test('makes multiple objects', function (): void {
 
 test('makes the object', function (): void {
 
-    $vehicleFactory = new VehicleFactory;
+    $vehicleFactory = Vehicle::factory();
 
     $vehicle = $vehicleFactory->make();
 
