@@ -2,9 +2,11 @@
 
 ## Requirements
 
-- PHP 8.4 or higher
+- PHP 8.2, 8.3, or 8.4
 - Composer
 - A PHP testing framework (PEST, PHPUnit, Codeception, etc.)
+
+> **Fully tested** on Windows, Linux, and macOS across all supported PHP versions.
 
 ## Install via Composer
 
@@ -55,8 +57,9 @@ it('creates a user', function () {
 Data Factory automatically includes:
 
 - **FakerPHP** - For generating realistic fake data
-- **Type-safe factories** - Full PHP 8.4+ generic support
+- **Type-safe factories** - Full PHP 8.2+ support with modern type hints
 - **No framework dependencies** - Use with any PHP project
+- **Cross-platform** - Tested on Windows, Linux, and macOS
 
 ## Next Steps
 

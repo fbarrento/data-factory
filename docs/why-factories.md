@@ -4,6 +4,8 @@ Test data factories solve common pain points when writing tests, making your tes
 
 Inspired by Laravel's Eloquent factories and built with PEST in mind, Data Factory brings the familiar factory pattern to any PHP project—without requiring Laravel or Eloquent.
 
+**Works everywhere**: PHP 8.2+, fully tested on Windows, Linux, and macOS.
+
 ## The Problem
 
 Without factories, test setup is repetitive, brittle, and clutters your test files:

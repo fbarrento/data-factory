@@ -4,6 +4,8 @@
 
 Inspired by Laravel's Eloquent factories, Data Factory follows the same intuitive API you already know—but works with any PHP class, not just Eloquent models.
 
+> **PHP 8.2+ | Fully tested on Windows, Linux, and macOS**
+
 ## Why Data Factory?
 
 - **Familiar API**: Inspired by Laravel's factories—if you know Laravel, you already know this
@@ -12,7 +14,7 @@ Inspired by Laravel's Eloquent factories, Data Factory follows the same intuitiv
 - **Readable tests**: Clear intent with named states like `->succeeded()`
 - **Easy complex objects**: Create nested graphs without boilerplate
 - **Framework-agnostic**: Works with any PHP class or array structure, not tied to Eloquent
-- **Type-safe**: Full PHP 8.4+ generics support with 100% type coverage
+- **Type-safe**: Full PHP 8.2+ support with 100% type coverage
 - **Well-tested**: 100% code coverage, PHPStan level 9 compliant
 
 ## Features

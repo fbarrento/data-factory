@@ -12,7 +12,7 @@
 
 Inspired by Laravel's Eloquent factories, Data Factory brings the same elegant API to any PHP project—no framework required.
 
-> **Requires [PHP 8.4+](https://php.net/releases/)**
+> **Requires [PHP 8.2+](https://php.net/releases/)** | Fully tested on PHP 8.2, 8.3, 8.4 across Windows, Linux, and macOS
 
 ## Features
 
