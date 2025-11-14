@@ -24,7 +24,12 @@ Inspired by Laravel's Eloquent factories, Data Factory brings the same elegant A
 - ✅ **Type-safe factories** - Modern type hints with 100% type coverage
 - ✅ **Faker integration** - Realistic test data out of the box
 
-> **Requires [PHP 8.2+](https://php.net/releases/)** | Fully tested on PHP 8.2, 8.3, 8.4 across Windows, Linux, and macOS
+## 📋 Requirements
+
+- PHP 8.2 or higher
+- Composer
+
+> Fully tested on PHP 8.2, 8.3, 8.4 across Windows, Linux, and macOS
 
 ## Installation
 
